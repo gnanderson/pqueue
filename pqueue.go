@@ -28,6 +28,7 @@ var (
 
 // Queue is the basic priority queue structure
 type Queue struct {
+	heaped     bool
 	collection []Queueable
 }
 
@@ -38,7 +39,7 @@ type Queueable interface {
 
 // NeqQueue returns new Q object with default capacity of 100
 func NewQueue() *Queue {
-	return &Queue{make([]Queueable, 0, 100)}
+	return &Queue{false, make([]Queueable, 0, 100)}
 }
 
 // Len satisfies the sort interface
@@ -70,16 +71,30 @@ func (q *Queue) Push(x interface{}) {
 	q.collection = append(q.collection, y)
 }
 
+func (q *Queue) heapify() {
+	if !q.heaped {
+		heap.Init(q)
+		q.heaped = true
+	}
+}
+
 // Add a single object to the queue
 func (q *Queue) Add(x Queueable) {
+	q.heapify()
 	heap.Push(q, x)
+}
+
+// Remove the highest priority item from the Q
+func (q *Queue) Remove() interface{} {
+	q.heapify()
+	return heap.Pop(q)
 }
 
 // PushSlice pushes a slice of queueable objects onto the Q and then min-heaps
 // the elements. complexity is O(n) where n = q.Len().
 func (q *Queue) AddSlice(s []Queueable) {
 	q.collection = append(q.collection, s...)
-	heap.Init(q)
+	q.heapify()
 }
 
 // Pop satisfies the heap interface. NOTE: This method pops elements from the Q

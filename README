@@ -1,0 +1,9 @@
+## pqueue - Simple Go priority queue ##
+
+pqueue is a very simple priority queue that satisfies the container/heap and
+sort interfaces from the Go standard library.
+
+### Usage ###
+
+	package main
+
