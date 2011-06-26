@@ -3,7 +3,11 @@
 pqueue is a very simple priority queue that satisfies the container/heap and
 sort interfaces from the Go standard library.
 
+### Install ###
+
+    goinstall github.com/gnanderson/pqueue
+
 ### Usage ###
 
-	package main
+	see example.go
 
