@@ -8,7 +8,7 @@
 package pqueue_test
 
 import (
-	pq "pqueue"
+	pq "github.com/gnanderson/pqueue"
 	"container/heap"
 	"sort"
 	"rand"
