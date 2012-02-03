@@ -8,12 +8,12 @@
 package pqueue_test
 
 import (
-	pq "github.com/gnanderson/pqueue"
 	"container/heap"
-	"sort"
-	"rand"
-	"testing"
 	"fmt"
+	pq "github.com/gnanderson/pqueue"
+	"math/rand"
+	"sort"
+	"testing"
 )
 
 type message struct {
@@ -184,7 +184,6 @@ func TestHeapInitAndPush(t *testing.T) {
 		t.Fatalf("heap.Push() fails, pushed valued not found at bottom of heap.")
 	}
 }
-
 
 func TestHeapRemove(t *testing.T) {
 	q := pq.NewQueue()

@@ -5,9 +5,9 @@ sort interfaces from the Go standard library.
 
 ### Install ###
 
-    goinstall github.com/gnanderson/pqueue
+    go get github.com/gnanderson/pqueue
 
 ### Usage ###
 
-	see example.go
+	see doc/example.go
 

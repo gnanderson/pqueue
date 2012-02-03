@@ -10,14 +10,11 @@ package pqueue
 // pqueue is (for the moment) a very simple priority queue that implements the
 // container/heap and sort Interfaces from the Go standard library.
 
-import (
-	"os"
-	"container/heap"
-)
+import "container/heap"
 
 type Error string
 
-func (e Error) String() string {
+func (e Error) Error() string {
 	return string(e)
 }
 
@@ -107,7 +104,7 @@ func (q *Queue) Pop() interface{} {
 }
 
 // Member returns the queue member at index i
-func (q *Queue) Member(i int) (m Queueable, err os.Error) {
+func (q *Queue) Member(i int) (m Queueable, err error) {
 	if i < q.Len() {
 		m = q.collection[i]
 	} else {
