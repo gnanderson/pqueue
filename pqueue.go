@@ -54,18 +54,28 @@ func (q *Queue) Swap(i, j int) {
 	q.collection[i], q.collection[j] = q.collection[j], q.collection[i]
 }
 
-// Push satisfies the heap interface. NOTE: This method simply appends to the Q
-// and does not min-heapify the elements, Consider using Add(x Queueable) or
+// Push satisfies the heap interface, do not use directly.
+//
+// NOTE: This method simply appends to the Q
+// and does not min-heapify or sort the elements. Use Add(x Queueable) or
 // container/heap instead e.g. heap.Push(q, x interface{}). Additionally this
 // method panics if your Q element does not satisfy the Queueable interface.
-// You should protect direct calls to either this or heap.Push() with a
-// defer/recover pairing.
 func (q *Queue) Push(x interface{}) {
 	y, ok := x.(Queueable)
 	if !ok {
 		panic(QERR_NOT_QUEUEABLE)
 	}
 	q.collection = append(q.collection, y)
+}
+
+// Pop satisfies the heap interface, do not use directly
+//
+// NOTE: This method pops elements from the Q and does not min-heapify the 
+// elements. User container/heap instead e.g. x, ok := heap.Pop(q).(Queueable)
+func (q *Queue) Pop() interface{} {
+	x := q.collection[q.Len()-1]
+	q.collection = q.collection[0 : q.Len()-1]
+	return x
 }
 
 func (q *Queue) heapify() {
@@ -87,20 +97,11 @@ func (q *Queue) Remove() interface{} {
 	return heap.Pop(q)
 }
 
-// PushSlice pushes a slice of queueable objects onto the Q and then min-heaps
+// AddSlice pushes a slice of queueable objects onto the Q and then min-heaps
 // the elements. complexity is O(n) where n = q.Len().
 func (q *Queue) AddSlice(s []Queueable) {
 	q.collection = append(q.collection, s...)
-	q.heapify()
-}
-
-// Pop satisfies the heap interface. NOTE: This method pops elements from the Q
-// and does not min-heapify the elements, Consider using container/heap instead
-// e.g. x, ok := heap.Pop(q).(Queueable)
-func (q *Queue) Pop() interface{} {
-	x := q.collection[q.Len()-1]
-	q.collection = q.collection[0 : q.Len()-1]
-	return x
+	heap.Init(q) // init is indempotent, so call it anyway
 }
 
 // Member returns the queue member at index i
